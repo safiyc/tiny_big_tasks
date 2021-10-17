@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 //#region styling
 const centerText = {
@@ -28,23 +29,8 @@ const styleListColumns = {
 //#endregion
 
 
-const allItems = [
-  {
-    "task": "code",
-    "status": "Today"
-  },
-  {
-    "task": "run",
-    "status": "Tomorrow"
-  },
-  {
-    "task": "declutter house",
-    "status": "Soon"
-  }
-];
-
 const App = () => {
-  const [items, setItems] = useState([allItems]);
+  const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState('');
 
   const addItem = (e) => {
@@ -53,14 +39,17 @@ const App = () => {
     // grab checked radio status value
     const itemStatus = document.querySelector('input[name="status"]:checked').value;
 
-    const newAdd = {
+    const newTask = {
       "task": newItem,
       "status": itemStatus
     };
 
-    console.log('new item: ', newAdd);
-    setItems(items.concat(newAdd));
-    console.log('items list: ', items); // will not display new item; behind by one index
+    console.log('new item: ', newTask);
+
+    axios.post('http://localhost:3001/tasks', newTask).then(response => {
+      setItems(items.concat(response.data));
+      console.log('items list: ', items); // will not display new item; behind by one index
+    });
   };
 
   const handleChangeItemName = (e) => {
@@ -70,7 +59,12 @@ const App = () => {
 
   // initial render of component will display loaded saved items
   useEffect(() => {
-    setItems(allItems);
+    // setItems(allItems);
+
+    axios.get('http://localhost:3001/tasks').then(response => {
+      console.log('GET: ', response.data);
+      setItems(response.data);
+    });
   }, []);
 
   return (

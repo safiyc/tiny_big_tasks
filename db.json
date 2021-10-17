@@ -1,0 +1,34 @@
+{
+  "tasks": [
+    {
+      "task": "code",
+      "status": "Today",
+      "id": 1
+    },
+    {
+      "task": "run",
+      "status": "Tomorrow",
+      "id": 2
+    },
+    {
+      "task": "declutter house",
+      "status": "Soon",
+      "id": 3
+    },
+    {
+      "task": "infusion",
+      "status": "Soon",
+      "id": 4
+    },
+    {
+      "task": "workout",
+      "status": "Today",
+      "id": 6
+    },
+    {
+      "task": "lowes returns",
+      "status": "Tomorrow",
+      "id": 7
+    }
+  ]
+}
