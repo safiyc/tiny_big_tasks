@@ -1,21 +1,6 @@
 {
   "tasks": [
     {
-      "task": "code",
-      "status": "Today",
-      "id": 1
-    },
-    {
-      "task": "run",
-      "status": "Tomorrow",
-      "id": 2
-    },
-    {
-      "task": "declutter house",
-      "status": "Soon",
-      "id": 3
-    },
-    {
       "task": "infusion",
       "status": "Soon",
       "id": 4
@@ -26,9 +11,39 @@
       "id": 6
     },
     {
-      "task": "lowes returns",
+      "task": "run",
+      "status": "Today",
+      "id": 8
+    },
+    {
+      "task": "back to work",
       "status": "Tomorrow",
-      "id": 7
+      "id": 9
+    },
+    {
+      "task": "lowes returns",
+      "status": "Today",
+      "id": 10
+    },
+    {
+      "task": "code",
+      "status": "Today",
+      "id": 11
+    },
+    {
+      "task": "practice commit",
+      "status": "Tomorrow",
+      "id": 12
+    },
+    {
+      "task": "set appt for altima oil change",
+      "status": "Tomorrow",
+      "id": 13
+    },
+    {
+      "task": "reply to per scholas",
+      "status": "Soon",
+      "id": 14
     }
   ]
 }
