@@ -31,19 +31,34 @@
       "id": 11
     },
     {
-      "task": "practice commit",
-      "status": "Tomorrow",
-      "id": 12
-    },
-    {
       "task": "set appt for altima oil change",
       "status": "Tomorrow",
       "id": 13
     },
     {
       "task": "reply to per scholas",
-      "status": "Soon",
+      "status": "Tomorrow",
       "id": 14
+    },
+    {
+      "task": "professional house inspect",
+      "status": "Soon",
+      "id": 15
+    },
+    {
+      "task": "set up practice folder for commits",
+      "status": "Soon",
+      "id": 16
+    },
+    {
+      "task": "explore Unity",
+      "status": "Soon",
+      "id": 17
+    },
+    {
+      "task": "Blender project - hotAirBalloons",
+      "status": "Today",
+      "id": 18
     }
   ]
 }

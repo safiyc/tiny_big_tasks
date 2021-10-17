@@ -11,7 +11,8 @@ const styleForm = {
   justifyContent: 'center',
   gap: 8,
   backgroundColor: 'rgb(150,150,200)',
-  padding: 10
+  padding: 10,
+  marginBottom: 10
 };
 
 const styleListsContainer = {
@@ -26,6 +27,14 @@ const styleListColumns = {
   width: '33.3%' // total width is accounted after 'gap'
 };
 
+const styleListUl = {
+  listStyle: 'none',
+  padding: '0 20px'
+}
+
+const styleListLi = {
+  margin: '5px 0'
+}
 //#endregion
 
 
@@ -80,6 +89,70 @@ const App = () => {
     // console.log('tasks after client delete: ', items);  // console will log update bc axios promise is asynchronous; client will update
   };
 
+  // move item to the status to the left (i.e. Tomorrow to Today, Today to Soon)
+  const moveLeft = (id) => {
+    // find and return item with matching id to clicked task
+    let taskToMove = items.find(item => item.id === id);
+    console.log('status of task to move: ', taskToMove.status);
+
+    // update the status of the task of being moved, using the conditional switch statement
+    const taskStatus = taskToMove.status;  // 'Today', 'Tomorrow', 'Soon'
+    // let updatedTask = taskToMove;
+    switch (taskStatus) {
+      case "Today":
+        taskToMove.status = "Soon";
+        break;
+      case "Tomorrow":
+        taskToMove.status = "Today";
+        break;
+      case "Soon":
+        taskToMove.status = "Tomorrow";
+        break;
+      default:
+        break;
+    };
+
+    console.log('updated status of task to move: ', taskToMove.status);
+
+    // update task's status saved in server, then response.data (is data of updated task)
+    axios.put(`http://localhost:3001/tasks/${id}`, taskToMove)
+      .then((response) => {
+        // return arr of tasks from items state as updatedList arr, 
+        // but if the id of the current mapping item matches the id of the task being moved, map the task from the server to updatedList
+        const updatedList = items.map(item => item.id !== id ? item : response.data);
+        console.log('updated list after item\'s status is changed in the server: ', updatedList);
+
+        // update the state of items in the client
+        setItems(updatedList);
+      });
+  };
+
+  // look at moveLeft() for detail
+  const moveRight = (id) => {
+    let taskToMove = items.find(item => item.id === id);
+    console.log('task to move: ', taskToMove);
+
+    const taskStatus = taskToMove.status;
+    switch (taskStatus) {
+      case 'Today':
+        taskToMove.status = 'Tomorrow';
+        break;
+      case 'Tomorrow':
+        taskToMove.status = 'Soon';
+        break;
+      case 'Soon':
+        taskToMove.status = 'Today';
+        break;
+      default:
+        break;
+    };
+
+    axios.put(`http://localhost:3001/tasks/${id}`, taskToMove)
+      .then(response => {
+        setItems(items.map(item => item.id !== id ? item : response.data));
+      });
+  };
+
   // grab realtime state of task desc input field
   const handleChangeItemName = (e) => {
     // console.log(e.target.value);
@@ -112,31 +185,52 @@ const App = () => {
           <input type='radio' name="status" value='Soon' id='soon' />
           <label htmlFor='today'>Soon</label>&nbsp;&nbsp;
         </div>
-        <button type='submit'>add</button>
+        <button style={{}} type='submit'>add</button>
       </form>
 
       <div style={styleListsContainer}>
         <div style={styleListColumns}>
           <h4 style={centerText}>Today</h4>
-          <ul>
+          <ul style={styleListUl}>
             {items.filter(item => item.status === "Today").map(item =>
-              <li key={item.task}>{item.task} - {item.status} --- <button onClick={() => deleteTask(item.id)}>Delete</button></li>
+              <li style={styleListLi} key={item.task}>
+                {item.task}
+                <div>
+                  <button onClick={() => deleteTask(item.id)}>Delete</button>
+                  <button onClick={() => moveLeft(item.id)}>Move Left</button>
+                  <button onClick={() => moveRight(item.id)}>Move Right</button>
+                </div>
+              </li>
             )}
           </ul>
         </div>
         <div style={styleListColumns}>
           <h4 style={centerText}>Tomorrow</h4>
-          <ul>
+          <ul style={styleListUl}>
             {items.filter(item => item.status === 'Tomorrow').map(item =>
-              <li key={item.task}>{item.task} - {item.status} --- <button onClick={() => deleteTask(item.id)}>Delete</button></li>
+              <li style={styleListLi} key={item.task}>
+                {item.task}
+                <div>
+                  <button onClick={() => deleteTask(item.id)}>Delete</button>
+                  <button onClick={() => moveLeft(item.id)}>Move Left</button>
+                  <button onClick={() => moveRight(item.id)}>Move Right</button>
+                </div>
+              </li>
             )}
           </ul>
         </div>
         <div style={styleListColumns}>
           <h4 style={centerText}>Soon</h4>
-          <ul>
+          <ul style={styleListUl}>
             {items.filter(item => item.status === 'Soon').map(item =>
-              <li key={item.task}>{item.task} - {item.status} --- <button onClick={() => deleteTask(item.id)}>Delete</button></li>
+              <li style={styleListLi} key={item.task}>
+                {item.task}
+                <div>
+                  <button onClick={() => deleteTask(item.id)}>Delete</button>
+                  <button onClick={() => moveLeft(item.id)}>Move Left</button>
+                  <button onClick={() => moveRight(item.id)}>Move Right</button>
+                </div>
+              </li>
             )}
           </ul>
         </div>
